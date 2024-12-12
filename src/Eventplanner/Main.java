@@ -55,6 +55,12 @@ public class Main {
         } while (!out);
     }
 
+    /**
+     * Este metodo sirve para añidir un evento donde pide por consola al usuario el nombre del evento.
+     * Despues pide al usuario la fecha.
+     * Como ultimo pide al usuaraio si quiere añadir una tarea.
+     */
+
     public void anadirEvento() {
         String nombre = getStringFromConsole("Nombre del Evento: ");
         int anio = obtenerNumero("Introduce el año: ");
@@ -83,6 +89,11 @@ public class Main {
         }
     }
 
+    /**
+     * Este metodo sirve para borrar un evento donde tenemos que introducir el nombre exacto.
+     * Si no hay eventos, se muestra por consola.
+     * Si el usuario ha introducido mal el nombre no se va a encontrar el evento. Tiene que el nombre tal cual como se ha creado.
+     */
     public void borrarEvento() {
         String nombreEvento = getStringFromConsole("Introduce el nombre del evento que deseas borrar: ");
         boolean eventoEncontrado = false;
@@ -105,6 +116,9 @@ public class Main {
         }
     }
 
+    /**
+     * Este metodo nos sirve para listar los eventos y toda la información que tiene.
+     */
     public void listarEventos() {
         if (eventos.isEmpty()) {
             System.out.println("No hay eventos programados.");
@@ -117,6 +131,12 @@ public class Main {
         }
     }
 
+    /**
+     * Este metodo nos sirve para marcar o desmarcar una tarea si esta completa o no.
+     * Primero el usuario tiene que introducir el nombre del evento.
+     * Se muestra las tareas para que el usuario puede eligir entre tareas.
+     */
+
     public void marcarTareas(){
         String nombreEvento = getStringFromConsole("Introduce el nombre del evento que deseas marcar/desmarcar la tarea: ");
         boolean eventoEncontrado = false;
@@ -127,7 +147,6 @@ public class Main {
             System.out.println("No hay eventos programados.");
             return;
         }
-
         // Buscar el evento por nombre
         for (Event evento : eventos) {
             if (evento.getNombreEvento().equals(nombreEvento)) {
@@ -136,7 +155,6 @@ public class Main {
                 break;
             }
         }
-
         // Si no se encontró el evento
         if (!eventoEncontrado) {
             System.out.println("No se encontró ningún evento con el título: " + nombreEvento);
@@ -146,18 +164,15 @@ public class Main {
         // Obtener la lista de tareas del evento
         ArrayList<EventTask> tareas = eventoSeleccionado.getTasks();
 
-        // Verificar si hay tareas en el evento
         if (tareas == null || tareas.isEmpty()) {
             System.out.println("No hay tareas para este evento.");
             return; // Salir si no hay tareas
         }
 
-        // Listar tareas del evento
         System.out.println("Tareas para el evento '" + nombreEvento + "':");
         for (int i = 0; i < tareas.size(); i++) {
             System.out.println((i + 1) + ". " + tareas.get(i));
         }
-
         // Solicitar al usuario que elija una tarea
         int tareaNombre = obtenerNumero("Introduce el número de la tarea que deseas marcar/desmarcar (0 para cancelar): ");
         if (tareaNombre < 1 || tareaNombre > tareas.size()) {
@@ -176,6 +191,7 @@ public class Main {
         }
     }
 
+    //Metodo para pedir al usuario un texto (String)
     public String getStringFromConsole(String mensaje) {
         Scanner input = new Scanner(System.in);
         String texto;
@@ -185,7 +201,7 @@ public class Main {
         } while (texto.isBlank());
         return texto;
     }
-
+    //Metodo para validar si la fecha es correcta
     public static boolean esFechaValida(int dia, int mes, int anio) {
         LocalDate fechaActual = LocalDate.now(); // Obtener la fecha actual
 
@@ -200,6 +216,7 @@ public class Main {
             return false;
         }
     }
+    //Metodo para pedir al usuario un numero
     public int obtenerNumero(String mensaje) {
         System.out.print(mensaje);
         while (!input.hasNextInt()) {
