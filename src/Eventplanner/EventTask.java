@@ -14,13 +14,6 @@ public class EventTask{
     public boolean isCompleted() {
         return isCompleted;
     }
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
 
     public void setCompleted(boolean completed) {
         isCompleted = completed;
@@ -28,6 +21,6 @@ public class EventTask{
 
     @Override
     public String toString() {
-        return "Tarea: " + descripcion + "- Estado tarea: " + (isCompleted ? "Completada" : "Sin completar");
+        return "Tarea: " + descripcion + " - Estado tarea: " + (isCompleted ? "Completada" : "Sin completar");
     }
 }

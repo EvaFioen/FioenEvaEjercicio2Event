@@ -68,15 +68,18 @@ public class Main {
             eventos.add(event);
             System.out.println("Evento añadido con éxito. Prioridad: " + prioridad);
             System.out.println(" ");
-            String respuesta = getStringFromConsole("¿Quieres añadir tareas al evento? (s/n)").toLowerCase().trim();
-            while (respuesta.equalsIgnoreCase("s")) {
-                String descripcionTarea = getStringFromConsole("Introduce la descripción de la tarea: ");
-                EventTask nuevaTarea = new EventTask(descripcionTarea); // Crear nueva tarea
-                event.addTask(nuevaTarea); // Añadir la tarea al evento
-
-                System.out.println("Tarea añadida con éxito.");
-                respuesta = getStringFromConsole("¿Quieres añadir otra tarea? (s/n)");
-            }
+            String respuesta;
+            do {
+                respuesta = getStringFromConsole("¿Quieres añadir tareas al evento? (s/n)").toLowerCase().trim();
+                if (respuesta.equals("s")) {
+                    String descripcionTarea = getStringFromConsole("Introduce la descripción de la tarea: ");
+                    EventTask nuevaTarea = new EventTask(descripcionTarea); // Crear nueva tarea
+                    event.addTask(nuevaTarea); // Añadir la tarea al evento
+                    System.out.println("Tarea añadida con éxito.");
+                } else if (!respuesta.equals("n")) {
+                    System.out.println("Respuesta no válida. Por favor, responde con 's' o 'n'.");
+                }
+            } while (!respuesta.equals("n"));
         }
     }
 
@@ -97,12 +100,11 @@ public class Main {
                 break; // Salir del bucle
             }
         }
-
-        // Informar al usuario si no se encontró el evento
         if (!eventoEncontrado) {
             System.out.println("No se encontró ningún evento con el título: " + nombreEvento);
         }
     }
+
     public void listarEventos() {
         if (eventos.isEmpty()) {
             System.out.println("No hay eventos programados.");
@@ -115,24 +117,62 @@ public class Main {
         }
     }
 
-
     public void marcarTareas(){
         String nombreEvento = getStringFromConsole("Introduce el nombre del evento que deseas marcar/desmarcar la tarea: ");
         boolean eventoEncontrado = false;
+        Event eventoSeleccionado = null; // Variable para almacenar el evento encontrado
 
+        // Verificar si hay eventos programados
         if (eventos.isEmpty()) {
-            System.out.println("No hay eventos programados para borrar.");
+            System.out.println("No hay eventos programados.");
             return;
         }
-        for (int i = 0; i < eventos.size(); i++) {
-            Event evento = eventos.get(i); // Obtener el evento en la posición i
+
+        // Buscar el evento por nombre
+        for (Event evento : eventos) {
             if (evento.getNombreEvento().equals(nombreEvento)) {
-                eventoEncontrado = true; // Marcar que se encontró el evento
-                break; // Salir del bucle
+                eventoEncontrado = true;
+                eventoSeleccionado = evento; // Almacenar el evento encontrado
+                break;
             }
         }
+
+        // Si no se encontró el evento
         if (!eventoEncontrado) {
             System.out.println("No se encontró ningún evento con el título: " + nombreEvento);
+            return; // Salir si no se encuentra el evento
+        }
+
+        // Obtener la lista de tareas del evento
+        ArrayList<EventTask> tareas = eventoSeleccionado.getTasks();
+
+        // Verificar si hay tareas en el evento
+        if (tareas == null || tareas.isEmpty()) {
+            System.out.println("No hay tareas para este evento.");
+            return; // Salir si no hay tareas
+        }
+
+        // Listar tareas del evento
+        System.out.println("Tareas para el evento '" + nombreEvento + "':");
+        for (int i = 0; i < tareas.size(); i++) {
+            System.out.println((i + 1) + ". " + tareas.get(i));
+        }
+
+        // Solicitar al usuario que elija una tarea
+        int tareaNombre = obtenerNumero("Introduce el número de la tarea que deseas marcar/desmarcar (0 para cancelar): ");
+        if (tareaNombre < 1 || tareaNombre > tareas.size()) {
+            System.out.println("Operación cancelada o número de tarea no válido.");
+            return; // Salir si la entrada es inválida
+        }
+
+        // Marcar o desmarcar la tarea
+        EventTask tareaSeleccionada = tareas.get(tareaNombre - 1);
+        if (tareaSeleccionada.isCompleted()) {
+            tareaSeleccionada.completeTask(); // Completar la tarea
+            System.out.println("La tarea ha sido marcada como completada.");
+        } else {
+            tareaSeleccionada.setCompleted(true); // Desmarcar la tarea
+            System.out.println("La tarea ha sido desmarcada.");
         }
     }
 

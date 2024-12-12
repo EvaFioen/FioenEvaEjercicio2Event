@@ -29,13 +29,6 @@ public class Event {
         return tasks;
     }
 
-    public void setNombreEvento(String nombreEvento) {this.nombreEvento = nombreEvento;}
-
-    public void setFecha(LocalDate fecha) {this.fecha = fecha;}
-
-    public void setPriority(Prioridad priority) {this.priority = priority;}
-
-
 
     @Override
     public String toString() {
