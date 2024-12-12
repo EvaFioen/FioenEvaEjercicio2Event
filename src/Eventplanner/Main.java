@@ -6,6 +6,7 @@ import java.util.Scanner;
 import java.time.DateTimeException;
 
 public class Main {
+    //variables globales
     Scanner input = new Scanner(System.in);
     ArrayList<Event> eventos = new ArrayList<>();
     boolean out = false;

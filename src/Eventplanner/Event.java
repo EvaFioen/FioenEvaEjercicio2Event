@@ -4,10 +4,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Event {
-    private String nombreEvento;
-    private LocalDate fecha;
-    private Prioridad priority;
-    private ArrayList<EventTask> tasks;
+    private final String nombreEvento;
+    private final LocalDate fecha;
+    private final Prioridad priority;
+    private final ArrayList<EventTask> tasks;
 
     public Event(String nombreEvento, LocalDate fecha,Prioridad priority) {
         this.nombreEvento = nombreEvento;

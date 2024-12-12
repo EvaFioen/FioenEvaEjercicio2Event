@@ -1,7 +1,7 @@
 package Eventplanner;
 
 public class EventTask{
-    private String descripcion;
+    private final String descripcion;
     private boolean isCompleted;
 
     public EventTask(String descripcion){
